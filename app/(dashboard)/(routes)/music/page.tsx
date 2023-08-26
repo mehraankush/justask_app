@@ -1,6 +1,6 @@
 "use client"
 import axios from 'axios'
-import { MessageSquare } from 'lucide-react'
+import { Music } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -15,13 +15,10 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import Empty from '@/components/Empty'
 import Loader from '@/components/Loader'
-import { cn } from '@/lib/utils'
-import UserAvatar from '@/components/UserAvatar'
-import BotAvatar from '@/components/BotAvatar'
 
 
 const page = () => {
-  const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([])
+  const [music, setMusic] = useState<string>();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,17 +33,11 @@ const page = () => {
   const onSubmitForm = async(val:z.infer<typeof formSchema>)=>{
      try{
         
-      const userMessage:OpenAI.Chat.ChatCompletionMessage = {
-         role:"user",
-         content:val.prompt,
-      }
+       setMusic(undefined);
 
-      const newMessages = [...messages,userMessage];
-      const response = await axios.post("/api/conversation",{
-        messages:newMessages
-      })
+      const response = await axios.post("/api/music",val)
       
-      setMessages((curr)=>[...curr,userMessage,response.data]);
+      setMusic(response.data.audio);
       form.reset();
 
      }catch(err){
@@ -61,11 +52,11 @@ const page = () => {
   return (
     <div>
       <Heading 
-        title='Conversation'
-        description='Your Best Bubby Ready For Anything, Anytime'
-        Icon={MessageSquare}
-        IconColor='text-violet-500'
-        bgColor='bg-violet-500/10'
+        title='Music Generation'
+        description='Turn your precious words into melody!'
+        Icon={Music}
+        IconColor='text-emerald-500'
+        bgColor='bg-emerald-500/10'
       />
 
       <div className='px-4 lg:px-8 '>
@@ -84,7 +75,7 @@ const page = () => {
                             <Input
                                 className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent '
                                 disabled={isLoading}
-                                placeholder='How Far is The Moon?'
+                                placeholder='Piano Solo'
                                 {...field}
                             />
                       </FormControl>
@@ -93,7 +84,7 @@ const page = () => {
                 )}
               />
 
-             <Button className='col-span-12 lg:col-span-2 w-full' disabled={isLoading}> Ask</Button>
+             <Button className='col-span-12 lg:col-span-2 w-full' disabled={isLoading}>Generate</Button>
             </form>
           </Form>
         </div>
@@ -106,23 +97,18 @@ const page = () => {
               </div>
             )
           }
-          {messages.length===0 && !isLoading && (
+          {music && !isLoading && (
             <div>
-              <Empty lable='No Conversation Started..'/>
+              <Empty lable='No Music Generated..'/>
             </div>
           )}
-           <div className='flex flex-col-reverse gap-y-4 '>
-               {messages?.map((message)=>(
-                <div key={message.content}
-                 className={cn("p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role ==='user'?'bg-white border border-black/10':'bg-muted'
-                 )}
-                >
-                  {/* {message.role === 'user'? <UserAvatar/>:<BotAvatar/>} */}
-                   <p className='text-sm'>{message.content}</p>
-                </div>
-               ))}
-           </div>
+         {
+          music && (
+            <audio controls className='w-full mt-8 '>
+              <source src={music}/>
+            </audio>
+          )
+         }
          </div>
 
       </div>

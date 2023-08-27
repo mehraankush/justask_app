@@ -1,10 +1,12 @@
 "use client"
-
+import { signOut, useSession } from "next-auth/react"
 import { Card } from "@/components/ui/card"
-import {  ArrowRight, Code, ImageIcon, MessageSquare, Music, Settings, VideoIcon } from "lucide-react"
+import {  ArrowRight, Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react"
+import  Image  from "next/image"
+import { useRouter } from "next/navigation"
 
 import { cn } from '../../../../lib/utils'
-import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 const tools = [
   {
@@ -45,8 +47,9 @@ const tools = [
 ]
 
 const page = () => {
-  const router = useRouter();
-
+  // const router = useRouter();
+  // const {data:session} = useSession();
+  // console.log(session)
   return (
     <div>
       <div className='mb-8 space-y-4'>  
@@ -56,6 +59,10 @@ const page = () => {
         <p className='text-muted-foreground font-light text-sm md:text-lg text-center'>
             Chat With The Smartest AI - Experience the power of AI
           </p>
+          {/* <div className="flex justify-end absolute mt-2 mr-1">
+            <Image src={`${session?.user?.image}`} height={20} width={20} alt="user" className="mr-1"/>
+            <Button onClick={()=>signOut()}> Sign Out</Button>
+          </div> */}
       </div>
       <div className='px-4 md:px-20 lg:px-32 space-y-4'> 
            {

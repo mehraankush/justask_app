@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { OpenAI } from 'openai'
+import { useSession } from 'next-auth/react'
 
 import Heading from '@/components/Heading'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -16,14 +17,13 @@ import { useState } from 'react'
 import Empty from '@/components/Empty'
 import Loader from '@/components/Loader'
 import { cn } from '@/lib/utils'
-import UserAvatar from '@/components/UserAvatar'
-import BotAvatar from '@/components/BotAvatar'
 import ReactMarkdown from 'react-markdown'
 
 
 const page = () => {
   const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([])
   const router = useRouter();
+  const {data:session} = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver:zodResolver(formSchema),
@@ -44,7 +44,8 @@ const page = () => {
 
       const newMessages = [...messages,userMessage];
       const response = await axios.post("/api/code",{
-        messages:newMessages
+        messages:newMessages,
+        userId:session?.user?.email
       })
       
       setMessages((curr)=>[...curr,userMessage,response.data]);

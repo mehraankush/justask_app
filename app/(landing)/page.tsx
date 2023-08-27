@@ -17,6 +17,11 @@ export default function Home() {
               Register
             </Button>
         </Link>
+        <Link href='/dashboard'>
+            <Button variant='outline'>
+              Dashboard
+            </Button>
+        </Link>
       </div>
     </div>
   )

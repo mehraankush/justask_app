@@ -1,29 +1,16 @@
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import Image from 'next/image'
+import { LandingNavbar } from '@/components/LandingNavbar'
+import { LandingHero } from '@/components/LandingHero'
+import { LandingContent } from '@/components/LandingContent'
 
-export default function Home() {
+
+const LandingPage = () =>{
   return (
-    <div>
-      <p className='text-9xl'>Hello Nextjs</p>
-      <div>
-        <Link href='/sign-in'>
-            <Button variant='outline'>
-              Login
-            </Button>
-        </Link>
-        <Link href='/sign-up'>
-            <Button variant='outline'>
-              Register
-            </Button>
-        </Link>
-        <Link href='/dashboard'>
-            <Button variant='outline'>
-              Dashboard
-            </Button>
-        </Link>
+     <div className='h-full'>
+       <LandingNavbar/>
+       <LandingHero/>
+       <LandingContent/>
       </div>
-    </div>
   )
 }
 
+export  default LandingPage;

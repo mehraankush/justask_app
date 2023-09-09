@@ -2,8 +2,10 @@
 import prismadb from "./prismadb";
 import { MAX_FREE_COUNT } from "@/constents";
 
+
+var UserID:any ;
 export const increaseApiLimit = async(userId:string)=>{
-    
+    UserID = userId;
     if(!userId){
       return;
     }
@@ -29,6 +31,7 @@ export const increaseApiLimit = async(userId:string)=>{
 export const CheckApiLimit = async(userId:string) =>{
     
 // const {data:session} = useSession();
+ UserID = userId;
     if(!userId){
         return false;
     }
@@ -41,4 +44,21 @@ export const CheckApiLimit = async(userId:string) =>{
     }else{
         return false;
     }
+}
+
+export const getCurrentCount = async() =>{
+     console.log(UserID);
+    if(!UserID){
+        return 0;
+    }
+    
+    const userApiLimit = await prismadb.userApiLimit.findUnique({
+        where:{userId:UserID}
+    })
+
+    if(!userApiLimit){
+        return 0 ;
+    }
+
+  return userApiLimit.count;
 }

@@ -1,11 +1,15 @@
 import React from 'react'
 import MobileSidebar from './MobileSidebar'
+import { getCurrentCount } from '@/lib/api-limit';
+import { checkSubscription } from '@/lib/subscription';
 
 
-const Navbar = () => {
+const Navbar = async() => {
+  const getCount =await  getCurrentCount();
+  const isPro = await checkSubscription();
   return (
     <div className='flex items-center p-4'>
-        <MobileSidebar/>
+        <MobileSidebar isPro={isPro} getCount={getCount}/>
     </div>
   )
 }

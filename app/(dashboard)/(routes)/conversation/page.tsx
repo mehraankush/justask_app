@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { OpenAI } from 'openai'
 import { useSession } from 'next-auth/react'
+import { toast } from 'react-hot-toast'
 
 import Heading from '@/components/Heading'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -19,10 +20,13 @@ import Loader from '@/components/Loader'
 import { cn } from '@/lib/utils'
 import UserAvatar from '@/components/UserAvatar'
 import BotAvatar from '@/components/BotAvatar'
+import { useProModel } from '@/hooks/use-pro-model'
+
 
 
 const page = () => {
-  const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([])
+  const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([]);
+  const proModel = useProModel();
   const router = useRouter();
   const {data:session} = useSession();
 
@@ -52,8 +56,13 @@ const page = () => {
       setMessages((curr)=>[...curr,userMessage,response.data]);
       form.reset();
 
-     }catch(err){
-      //TODO open pro model
+     }catch(err:any){
+      
+        if(err?.response?.status === 403){
+          proModel.onOpen();
+        }else{
+          toast.error("Something Went Wrong")
+        }
       console.log("Prompt_Request_Error",err);
      }finally{
        router.refresh();

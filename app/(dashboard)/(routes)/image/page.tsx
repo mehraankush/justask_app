@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 import Heading from '@/components/Heading'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -18,9 +19,11 @@ import { cn } from '@/lib/utils'
 import { Select ,SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select'
 import { Card, CardFooter } from '@/components/ui/card'
 import Image from 'next/image'
+import { useProModel } from '@/hooks/use-pro-model'
 
 
 const page = () => {
+  const proModel = useProModel();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
 
@@ -50,7 +53,13 @@ const page = () => {
      form.reset();
 
      }catch(err:any){
-      //TODO open pro model
+
+      if(err?.response?.status === 403){
+        proModel.onOpen();
+      }
+      else{
+        toast.error("Something Went Wrong");
+      }
       console.log("Image_Prompt_Request_Error",err);
      }finally{
        router.refresh();

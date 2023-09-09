@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 
 import { cn } from '../lib/utils'
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from "lucide-react";
+import FreeCounter from "./FreeCounter";
 
 const montserrat = Montserrat({weight:'600',subsets:['latin']}) 
 const routes = [
@@ -53,7 +54,13 @@ const routes = [
   }
 ];
 
-const SideBar = () => {
+interface SideBarProps{
+ getCount:number;
+ isPro:boolean;
+}
+
+const SideBar = async({getCount= 0,isPro = false}:SideBarProps) => {
+
 
   const pathname = usePathname();
   return (
@@ -61,7 +68,7 @@ const SideBar = () => {
        <div className="px-3 py-2 flex-1">
           <Link href='/dashboard' className="flex items-center pl-3 mb-14">
               <div className="relative w-8 h-8 mr-4">
-                  <Image src='/logo.png' alt="Logo" height={20} width={20}/>
+                  <Image src='/logoai.png' alt="Logo" height={20} width={20}/>
               </div>
               <h1 className={cn("text-2xl font-bold",montserrat.className)}>JustAsk</h1>
           </Link>
@@ -85,6 +92,7 @@ const SideBar = () => {
              }
           </div>
        </div>
+       <FreeCounter getCount={getCount} isPro={isPro}/>
     </div>
   )
 }

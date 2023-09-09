@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation"
 
 import { cn } from '../../../../lib/utils'
 import { Button } from "@/components/ui/button"
+import axios from "axios"
+import { useEffect } from "react"
 
 const tools = [
   {
@@ -47,9 +49,27 @@ const tools = [
 ]
 
 const page = () => {
-  // const router = useRouter();
-  // const {data:session} = useSession();
-  // console.log(session)
+  const router = useRouter();
+  const {data:session} = useSession();
+  // console.log(session?.user?.email)
+
+  const StoreCookies = async() =>{
+    try{
+
+      await axios.post('/api/cookies',{
+        userid:session?.user?.email
+      })
+   
+    }catch(err:any){
+      console.log("Error In Sending The Cookies",err);
+    }
+  }
+
+  useEffect(() => {
+    StoreCookies();
+  }, [])
+  
+
   return (
     <div>
       <div className='mb-8 space-y-4'>  

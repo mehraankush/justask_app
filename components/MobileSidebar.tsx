@@ -4,7 +4,12 @@ import { Button } from './ui/button'
 import {Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 import SideBar from './SideBar'
 
-const MobileSidebar = () => {
+interface MobileSideBarProps {
+  getCount:number;
+  isPro:boolean;
+}
+
+const MobileSidebar = ({getCount=0,isPro=false}:MobileSideBarProps) => {
   return (
     <Sheet>
         <SheetTrigger>
@@ -13,7 +18,7 @@ const MobileSidebar = () => {
             </Button>
         </SheetTrigger>
         <SheetContent side='left' className='p-0'>
-          <SideBar/>
+          <SideBar isPro={isPro} getCount={getCount}/>
         </SheetContent>
     </Sheet>
   )

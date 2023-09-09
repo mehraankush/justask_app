@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Replicate from 'replicate'
 import { increaseApiLimit,CheckApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 const replicate = new Replicate({
     auth:process.env.REPLICATE_AI_API_TOKEN || ""
@@ -22,7 +23,8 @@ export async function POST(req:Request){
         }
         
         const freeTrial = await CheckApiLimit(userId);
-        if(!freeTrial){
+        const isPro = await checkSubscription();
+        if(!freeTrial && !isPro){
             return new NextResponse("Free Trial Has Expried",{status:403});
         }
 
@@ -36,7 +38,9 @@ export async function POST(req:Request){
         );
            
           // console.log(response);
-          await increaseApiLimit(userId);
+          if(!isPro){
+            await increaseApiLimit(userId);
+          }
           return NextResponse.json(response)
 
     }catch(err){

@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import { OpenAI } from 'openai'
+import { toast } from 'react-hot-toast'
 
 import Heading from '@/components/Heading'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
@@ -15,10 +16,12 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import Empty from '@/components/Empty'
 import Loader from '@/components/Loader'
+import { useProModel } from '@/hooks/use-pro-model'
 
 
 const page = () => {
   const [video, setVideo] = useState<string>();
+  const proModel = useProModel();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -40,8 +43,14 @@ const page = () => {
       setVideo(response.data[0]);
       form.reset();
 
-     }catch(err){
-      //TODO open pro model
+     }catch(err:any){
+
+      if(err?.response?.status === 403){
+        proModel.onOpen();
+      }
+      else{
+        toast.error("Something Went Wrong");
+      }
       console.log("Prompt_Request_Error",err);
      }finally{
        router.refresh();

@@ -60,7 +60,7 @@ interface SideBarProps{
  isPro:boolean;
 }
 
-const SideBar = async({getCount= 0,isPro = false}:SideBarProps) => {
+const SideBar = ({getCount= 0,isPro = false}:SideBarProps) => {
 
 
   const pathname = usePathname();

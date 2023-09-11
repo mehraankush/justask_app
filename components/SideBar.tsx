@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Montserrat } from 'next/font/google'
 import { usePathname } from 'next/navigation'
+import { signOut } from "next-auth/react";
 
 import { cn } from '../lib/utils'
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from "lucide-react";
@@ -87,9 +88,11 @@ const SideBar = async({getCount= 0,isPro = false}:SideBarProps) => {
                      {item.lable}
                  </div>
                 </Link>
-
               ))
              }
+             <button  onClick={()=>signOut()} className="text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition">
+                   SignOut
+             </button>
           </div>
        </div>
        <FreeCounter getCount={getCount} isPro={isPro}/>

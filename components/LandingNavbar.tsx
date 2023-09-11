@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
+import { signIn } from "next-auth/react";
 
 const font = Montserrat({
   weight:"600",
@@ -25,11 +26,11 @@ export const LandingNavbar = () => {
               <h1 className={cn("text-2xl font-bold text-white",font.className)} >JustAsk</h1>
           </Link>
           <div className="flex items-center gap-x-2 ">
-           <Link href={isLoggedIn ? '/dashboard':'/sign-up'}>
-              <Button variant="outline" className="rounded-full">
+           {/* <Link href={isLoggedIn ? '/dashboard':'/sign-up'}> */}
+              <Button variant="outline" onClick={()=>signIn('google')} className="rounded-full">
                 Get Started
               </Button>
-           </Link>
+           {/* </Link> */}
           </div>
       </nav>
     </div>

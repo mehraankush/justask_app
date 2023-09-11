@@ -19,7 +19,7 @@ import Loader from '@/components/Loader'
 import { useProModel } from '@/hooks/use-pro-model'
 
 
-const page = () => {
+const Page = () => {
   const [video, setVideo] = useState<string>();
   const proModel = useProModel();
   const router = useRouter();
@@ -125,4 +125,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

@@ -22,7 +22,7 @@ import Image from 'next/image'
 import { useProModel } from '@/hooks/use-pro-model'
 
 
-const page = () => {
+const Page = () => {
   const proModel = useProModel();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
@@ -215,4 +215,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

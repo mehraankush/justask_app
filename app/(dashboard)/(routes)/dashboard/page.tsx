@@ -48,7 +48,7 @@ const tools = [
     }
 ]
 
-const page = () => {
+const Page = () => {
   const router = useRouter();
   const {data:session} = useSession();
   // console.log(session?.user?.email)
@@ -111,4 +111,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

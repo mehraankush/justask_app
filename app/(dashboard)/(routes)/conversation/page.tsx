@@ -24,7 +24,7 @@ import { useProModel } from '@/hooks/use-pro-model'
 
 
 
-const page = () => {
+const Page = () => {
   const [messages, setMessages] = useState<OpenAI.Chat.ChatCompletionMessage[]>([]);
   const proModel = useProModel();
   const router = useRouter();
@@ -142,4 +142,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

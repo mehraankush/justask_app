@@ -2,7 +2,7 @@
 import { signOut, useSession } from "next-auth/react"
 import { Card } from "@/components/ui/card"
 import {  ArrowRight, Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react"
-import  Image  from "next/image"
+
 import { useRouter } from "next/navigation"
 
 import { cn } from '../../../../lib/utils'

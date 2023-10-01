@@ -49,6 +49,7 @@ const Page = () => {
         proModel.onOpen();
       }
       else{
+        console.log(err)
         toast.error("Something Went Wrong");
       }
       console.log("Prompt_Request_Error",err);
